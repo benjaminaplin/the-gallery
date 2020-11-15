@@ -1,8 +1,14 @@
+import { useEffect } from 'react'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import Layout from '../components/Layout'
 
 const IndexPage: NextPage = () => {
+  useEffect(()=>{
+    fetch('https://localhost:3001/users').then((res)=>{
+      console.log('res', res)
+    })
+  },[])
   return (
     <Layout title="Home | Next.js + TypeScript Example">
       <ul className="card-list">
