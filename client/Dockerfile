@@ -1,18 +1,13 @@
-FROM node:14
+FROM mhart/alpine-node
 
-ENV PORT 3000
+WORKDIR /app
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+COPY . .
 
-# Installing dependencies
-COPY package*.json /usr/src/app/
-RUN yarn
+RUN yarn install --frozen-lockfile
 
-# Copying source files
-COPY . /usr/src/app
+RUN yarn build
 
 EXPOSE 3000
 
-CMD [ "yarn", "dev"]
+CMD ["yarn", "start"]
