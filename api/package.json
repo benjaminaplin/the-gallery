@@ -5,7 +5,8 @@
    "description": "Awesome project developed with TypeORM.",
    "scripts": {
       "start": "ts-node src/index.ts",
-      "start:dev": "npx nodemon"
+      "start:dev": "npx nodemon",
+      "typeorm-cli": "ts-node ./node_modules/typeorm/cli.js"
    },
    "devDependencies": {
       "ts-node": "3.3.0",

@@ -1,13 +1,16 @@
 version: '3'
 services:
   postgres:
-    image: "postgres:9.6.1"
+    image: "postgres:12.5"
     ports:
       - "5432:5432"
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: "test"
-      POSTGRES_PASSWORD: "test"
-      POSTGRES_DB: "test"
+      DATABASE_HOST: "172.19.0.2"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "art-gallery"
   api:
     # somewhere we need to run ts-node /usr/local/bin/typeorm migration:generate -n initTables
 
@@ -23,9 +26,14 @@ services:
       - ./api:/usr/app
       -  /usr/app/node_modules
 
-
+    environment:
+      DATABASE_HOST: "172.19.0.2"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "art-gallery"
     ports:
       - "3001:3000"
+      # - "5432:5432"
     links:
       - postgres
   client:
@@ -40,3 +48,7 @@ services:
       - /usr/src/app/.next
     links:
       - "api"
+networks:
+  default:
+    external:
+      name: art-gallery

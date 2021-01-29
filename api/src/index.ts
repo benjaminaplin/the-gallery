@@ -6,7 +6,30 @@ import {Request, Response} from "express";
 import {Routes} from "./routes";
 import {User} from "./entity/User";
 
-createConnection().then(async connection => {
+createConnection({
+  type: "postgres",
+  host:  "172.19.0.2",
+  port: 5432,
+  username: "postgres",
+  password: "password",
+  database: "art-gallery",
+  synchronize: false,
+  logging: true,
+  entities: [
+     "src/entity/**/*.ts"
+  ],
+  migrations: [
+     "src/migration/**/*.ts"
+  ],
+  subscribers: [
+     "src/subscriber/**/*.ts"
+  ],
+  cli: {
+     entitiesDir: "src/entity",
+     migrationsDir: "src/migration",
+     subscribersDir: "src/subscriber"
+  }
+}).then(async connection => {
 
     // create express app
     const app = express();
@@ -46,4 +69,4 @@ createConnection().then(async connection => {
     // PORT is really 3000, but it's mapped to 3001 bc client is on 3000
     console.log("Express server has started on port 3001. Open http://localhost:3001/users to see results");
 
-}).catch(error => console.log(error));
+}).catch(error => console.log('***** DB CONNECTION ERROR', error));
